@@ -1,0 +1,91 @@
+{
+  "id": 3,
+  "title": "이름을 아는 남자",
+  "place": "garden",
+  "background": "assets/backgrounds/garden.png",
+  "situation": "플라워 가든에 별꽃이 피었어. 산책 갈 준비!",
+  "costume_choices": [
+    "c001",
+    "c004",
+    "c005"
+  ],
+  "dialogue": {
+    "common_intro": [
+      {
+        "who": "goofy",
+        "text": "리아! 내가 안내해 주지! …앗. (꽃밭에 넘어짐)"
+      }
+    ],
+    "variant": {
+      "c001": [
+        {
+          "who": "prince",
+          "text": "여기서도 만나네요."
+        },
+        {
+          "who": "ria",
+          "text": "…우연이에요?",
+          "exp": "surprise"
+        }
+      ],
+      "c004": [
+        {
+          "who": "prince",
+          "text": "산책이면 그 옷이 편하겠네요."
+        },
+        {
+          "who": "ria",
+          "text": "…왜 자꾸 나타나요?",
+          "exp": "shy"
+        }
+      ],
+      "c005": [
+        {
+          "who": "prince",
+          "text": "별꽃이랑 같은 색이네요."
+        },
+        {
+          "who": "ria",
+          "text": "…일부러 맞췄어요.",
+          "exp": "love"
+        }
+      ]
+    },
+    "event": [
+      {
+        "who": "prince",
+        "text": "조심해요, 리아."
+      },
+      {
+        "who": "ria",
+        "text": "…잠깐. 내 이름, 말한 적 없는데.",
+        "exp": "surprise"
+      },
+      {
+        "who": "prince",
+        "text": "…아, 그건 설명이 좀 필요한데."
+      }
+    ],
+    "closing_question": "이 사람, 나를 어떻게 알고 있는 거지?"
+  },
+  "reward": {
+    "stardust": 150,
+    "affection": 1,
+    "unlock_costume": null
+  },
+  "hidden": {
+    "condition": {
+      "replay": true,
+      "costume": "c005"
+    },
+    "scene": [
+      {
+        "who": "star",
+        "text": "(멀리서) 왕궁 마차가 정원을 지나갔다."
+      }
+    ],
+    "badge": "prince_secret_02"
+  },
+  "next": null,
+  "to_be_continued": "TO BE CONTINUED — 다음 이야기: 별빛 우체국의 편지"
+}

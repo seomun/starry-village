@@ -1,0 +1,23 @@
+{
+  "ria": {
+    "name": "리아", "role": "hero", "color": "#F4A7B9",
+    "portrait": "assets/characters/ria/portrait.png",
+    "game_layers": {
+      "body": "assets/characters/ria/game_body.png",
+      "hair_back": "assets/characters/ria/game_hair_back.png",
+      "face": "assets/characters/ria/game_face.png",
+      "hair_front": "assets/characters/ria/game_hair_front.png",
+      "hair_acc": "assets/characters/ria/game_hair_acc.png"
+    },
+    "expressions": {
+      "joy": "assets/characters/ria/exp_joy.png", "surprise": "assets/characters/ria/exp_surprise.png",
+      "shy": "assets/characters/ria/exp_shy.png", "angry": "assets/characters/ria/exp_angry.png",
+      "sad": "assets/characters/ria/exp_sad.png", "love": "assets/characters/ria/exp_love.png"
+    }
+  },
+  "prince": { "name": "???", "reveal_name": "루안", "reveal_stage": 18, "role": "prince",
+              "color": "#2E3A59", "portrait": "assets/characters/prince/portrait.png" },
+  "rival":  { "name": "엘라", "role": "rival", "color": "#7B1E3A", "portrait": "assets/characters/rival/portrait.png" },
+  "goofy":  { "name": "토토", "role": "goofy", "color": "#F28C28", "portrait": "assets/characters/goofy/portrait.png" },
+  "star":   { "name": "별이", "role": "narrator", "color": "#FFE066", "portrait": "assets/characters/star/portrait.png" }
+}

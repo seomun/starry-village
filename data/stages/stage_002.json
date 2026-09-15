@@ -1,0 +1,26 @@
+{
+  "id": 2, "title": "카페에서의 우연", "place": "cafe",
+  "background": "assets/backgrounds/cafe.png",
+  "situation": "문라이트 카페에 새 디저트가 나왔대. 뭘 입고 갈까?",
+  "costume_choices": ["c001", "c002", "c004"],
+  "dialogue": {
+    "common_intro": [ { "who": "star", "text": "카페 앞에서 누가 뭘 떨어뜨렸어!" } ],
+    "variant": {
+      "c001": [ { "who": "ria", "text": "저기요, 이거 떨어뜨리셨어요.", "exp": "joy" },
+                { "who": "prince", "text": "아… 고마워요. 또 만났네요." } ],
+      "c002": [ { "who": "rival", "text": "파티 옷을 카페에? 참 열심이네." },
+                { "who": "ria", "text": "…뭐래.", "exp": "angry" } ],
+      "c004": [ { "who": "prince", "text": "그 옷, 카페랑 잘 어울리네요." },
+                { "who": "ria", "text": "…고, 고마워요.", "exp": "shy" } ]
+    },
+    "event": [ { "who": "star", "text": "떨어진 건 낡은 회중시계였다." },
+               { "who": "star", "text": "뚜껑 안쪽에… 별 문양?" },
+               { "who": "prince", "text": "그건 그냥 오래된 물건이에요." } ],
+    "closing_question": "그 별 문양, 왕궁 깃발이랑 똑같지 않아?"
+  },
+  "reward": { "stardust": 100, "affection": 1, "unlock_costume": "c005" },
+  "hidden": { "condition": { "replay": true, "costume": "c004" },
+              "scene": [ { "who": "rival", "text": "(카페 밖) …그 시계, 아직 갖고 있었구나." } ],
+              "badge": "rival_knows_01" },
+  "next": 3
+}

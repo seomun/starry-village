@@ -1,0 +1,17 @@
+{
+  "c001": { "name": "크림 원피스", "tags": ["basic"], "price": 0, "color": "#FFF4E0",
+            "layers": { "dress": "assets/costumes/c001/dress.png", "shoes": "assets/costumes/c001/shoes.png", "bag": null },
+            "hero": "assets/costumes/c001/hero.png" },
+  "c002": { "name": "핑크 파티 드레스", "tags": ["party"], "price": 0, "color": "#F4A7B9",
+            "layers": { "dress": "assets/costumes/c002/dress.png", "shoes": "assets/costumes/c002/shoes.png", "bag": "assets/costumes/c002/bag.png" },
+            "hero": "assets/costumes/c002/hero.png" },
+  "c003": { "name": "별빛 블루 드레스", "tags": ["party", "special"], "price": 0, "color": "#9DC3F0",
+            "layers": { "dress": "assets/costumes/c003/dress.png", "shoes": "assets/costumes/c003/shoes.png", "bag": null },
+            "hero": "assets/costumes/c003/hero.png" },
+  "c004": { "name": "카페 캐주얼", "tags": ["casual"], "price": 100, "color": "#D9C6A5",
+            "layers": { "top": "assets/costumes/c004/top.png", "bottom": "assets/costumes/c004/bottom.png", "shoes": "assets/costumes/c004/shoes.png" },
+            "hero": "assets/costumes/c004/hero.png" },
+  "c005": { "name": "가든 플라워룩", "tags": ["casual", "garden"], "price": 150, "color": "#BFE3B4",
+            "layers": { "dress": "assets/costumes/c005/dress.png", "shoes": "assets/costumes/c005/shoes.png", "bag": "assets/costumes/c005/bag.png" },
+            "hero": "assets/costumes/c005/hero.png" }
+}

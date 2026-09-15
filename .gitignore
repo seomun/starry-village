@@ -1,0 +1,4 @@
+__pycache__/
+*.zip
+content/images/_raw/
+notes/*_private*

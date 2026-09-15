@@ -1,0 +1,26 @@
+{
+  "id": 1, "title": "첫 번째 별빛 파티", "place": "studio",
+  "background": "assets/backgrounds/plaza_night.png",
+  "situation": "오늘 밤은 별빛 파티! 리아, 입고 갈 옷이 없어…",
+  "costume_choices": ["c001", "c002", "c003"],
+  "dialogue": {
+    "common_intro": [ { "who": "star", "text": "와, 리아! 오늘 진짜 예쁘다!", "exp": "joy" } ],
+    "variant": {
+      "c001": [ { "who": "goofy", "text": "그… 그 옷! 내가 본 적 있는데?!" },
+                { "who": "ria", "text": "…어디서?", "exp": "surprise" } ],
+      "c002": [ { "who": "rival", "text": "흥. 그 드레스, 어디서 났어?" },
+                { "who": "ria", "text": "비밀이야.", "exp": "joy" } ],
+      "c003": [ { "who": "prince", "text": "오늘… 조금 달라 보이네요." },
+                { "who": "ria", "text": "…누구세요?", "exp": "shy" } ]
+    },
+    "event": [ { "who": "star", "text": "그때, 파티장의 불이 전부 꺼졌다!" },
+               { "who": "prince", "text": "괜찮아요. 잠깐이면 돼요." },
+               { "who": "star", "text": "…정말 잠깐 만에 불이 돌아왔다." } ],
+    "closing_question": "저 사람, 왜 이렇게 침착하지?"
+  },
+  "reward": { "stardust": 100, "affection": 1, "unlock_costume": "c004" },
+  "hidden": { "condition": { "replay": true, "costume": "c003" },
+              "scene": [ { "who": "prince", "text": "(혼잣말) 아직 아무것도 모르는군." } ],
+              "badge": "prince_secret_01" },
+  "next": 2
+}
