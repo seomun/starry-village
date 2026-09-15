@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Dress Story — Starry Village</title>
+<style>
+/* ---------- 기준 360×640, letterbox ---------- */
+:root {
+  --cream: #FFF8F0; --rose: #F4A7B9; --gold: #F5C542; --text: #3A2E39;
+  --rose-deep: #E07A96; --line: rgba(58,46,57,.15);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: #2a2230; overflow: hidden;
+  font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
+  color: var(--text); user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+#stage { position: absolute; width: 360px; height: 640px; background: var(--cream);
+  transform-origin: 0 0; overflow: hidden; }
+.screen { position: absolute; inset: 0; display: none; flex-direction: column; }
+.screen.on { display: flex; animation: fadein .25s ease; }
+@keyframes fadein { from { opacity: 0 } to { opacity: 1 } }
+
+/* ---------- 공통 UI ---------- */
+.btn { display: block; width: 100%; min-height: 56px; border: 0; border-radius: 16px;
+  font-size: 18px; font-weight: 700; color: var(--text); background: #fff;
+  box-shadow: 0 3px 0 rgba(0,0,0,.12); cursor: pointer; padding: 0 16px; }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+.btn.gold { background: var(--gold); }
+.btn.rose { background: var(--rose); color: #fff; }
+.btn.ghost { background: transparent; box-shadow: none; font-weight: 500; font-size: 15px; min-height: 44px; }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.bottom { position: relative; z-index: 2; padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 8px; }
+.topbar { position: relative; height: 48px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px; font-size: 14px; font-weight: 700; z-index: 5; }
+.pill { background: rgba(255,255,255,.85); border-radius: 999px; padding: 6px 12px; font-size: 13px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.pill.gold { color: #8a6a00; }
+.iconbtn { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.85);
+  font-size: 18px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+h1 { margin: 0; font-size: 22px; }
+.center { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; padding: 16px; }
+.toast { position: absolute; left: 50%; top: 80px; transform: translateX(-50%); background: rgba(58,46,57,.9);
+  color: #fff; font-size: 14px; padding: 10px 18px; border-radius: 999px; z-index: 50; pointer-events: none;
+  opacity: 0; transition: opacity .2s; white-space: nowrap; }
+.toast.on { opacity: 1; }
+
+/* ---------- 이미지 / 플레이스홀더 ---------- */
+.img { position: relative; overflow: hidden; }
+.img > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.ph { display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 11px; font-weight: 700; color: rgba(58,46,57,.75); border: 2px dashed rgba(58,46,57,.25);
+  border-radius: 10px; padding: 2px; line-height: 1.2; word-break: break-all; }
+.bg { position: absolute; inset: 0; z-index: 0; }
+.bg > img { object-fit: cover; }
+.bg.ph { border: 0; border-radius: 0; font-size: 14px; align-items: flex-start; padding-top: 60px; }
+
+/* 인형(레이어) */
+.doll { position: relative; width: 200px; height: 360px; }
+.doll .layer { position: absolute; inset: 0; }
+.doll .layer > img { object-fit: contain; }
+.doll .layer.ph { position: absolute; inset: auto; border-radius: 30% 30% 20% 20%; opacity: .92; }
+.portrait { width: 64px; height: 64px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.portrait.ph { border-radius: 50%; border-style: solid; font-size: 13px; }
+.portrait > img { object-fit: cover; }
+
+/* ---------- S0 Title ---------- */
+#s-title { background: linear-gradient(180deg, #FFE9F0 0%, var(--cream) 60%); }
+#s-title .logo-sm { font-size: 14px; letter-spacing: .3em; color: var(--rose-deep); font-weight: 700; }
+#s-title .logo { font-size: 44px; font-weight: 900; line-height: 1.1; margin: 6px 0 4px; color: var(--text); text-shadow: 3px 3px 0 #fff; }
+#s-title .sub { font-size: 13px; color: #8a7a88; }
+.stars { font-size: 40px; letter-spacing: 8px; color: var(--gold); margin-bottom: 18px; filter: drop-shadow(0 2px 0 rgba(0,0,0,.08)); }
+
+/* ---------- S1 Intro ---------- */
+#s-intro .card { margin: auto 20px; background: rgba(255,255,255,.94); border-radius: 20px; padding: 22px 18px; text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.12); z-index: 1; }
+#s-intro .stagenum { font-size: 12px; font-weight: 700; color: var(--rose-deep); letter-spacing: .15em; }
+#s-intro .situation { font-size: 17px; line-height: 1.5; margin: 14px 0 0; }
+#s-intro .star-icon { font-size: 34px; margin-bottom: 2px; }
+#s-intro .bottom { z-index: 1; }
+
+/* ---------- S2 DressUp ---------- */
+#s-dress .preview .doll { transform: scale(.9); transform-origin: 50% 40%; }
+#s-dress .preview { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+#s-dress .cname { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-weight: 700; font-size: 16px;
+  color: var(--text); text-shadow: 0 1px 0 #fff; }
+.rack { display: flex; gap: 10px; overflow-x: auto; padding: 10px 16px 6px; scroll-snap-type: x mandatory; z-index: 1;
+  background: rgba(255,255,255,.7); border-top: 1px solid var(--line); }
+.rack::-webkit-scrollbar { display: none; }
+.ccard { flex: 0 0 96px; height: 118px; border-radius: 14px; background: #fff; border: 3px solid transparent;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 8px 6px 6px;
+  scroll-snap-align: start; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,.08); position: relative; }
+.ccard.sel { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,197,66,.35); }
+.ccard .swatch { width: 56px; height: 56px; border-radius: 12px; }
+.ccard .swatch.ph { font-size: 10px; }
+.ccard .nm { font-size: 12px; font-weight: 700; text-align: center; line-height: 1.2; }
+.ccard.locked { opacity: .8; }
+.ccard .lock { position: absolute; top: 4px; right: 6px; font-size: 12px; background: var(--gold); border-radius: 999px; padding: 1px 6px; font-weight: 700; }
+
+/* ---------- S3 Scene ---------- */
+#s-scene { background: #1c1826; }
+#s-scene .hero { position: absolute; left: 0; right: 0; top: 48px; bottom: 214px; display: flex; align-items: center; justify-content: center; z-index: 1; }
+#s-scene .hero .img.heroimg { width: 360px; height: 100%; }
+#s-scene .hero .doll { transform: scale(.95); }
+.actors { position: absolute; left: 0; right: 0; bottom: 200px; height: 72px; z-index: 3; pointer-events: none; }
+.actors .slot { position: absolute; bottom: 0; transition: opacity .2s, transform .2s; opacity: .45; transform: scale(.85); }
+.actors .slot.active { opacity: 1; transform: scale(1); }
+.actors .slot.L { left: 14px; } .actors .slot.R { right: 14px; }
+.actors .slot.hidden { display: none; }
+.dlg { position: absolute; left: 0; right: 0; bottom: 0; height: 214px; background: rgba(255,248,240,.97);
+  border-radius: 22px 22px 0 0; padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 4; cursor: pointer;
+  box-shadow: 0 -4px 20px rgba(0,0,0,.25); }
+.dlg .name { display: inline-block; font-weight: 800; font-size: 14px; color: #fff; padding: 4px 12px; border-radius: 999px;
+  margin-bottom: 10px; min-width: 60px; text-align: center; }
+.dlg .text { font-size: 18px; line-height: 1.55; min-height: 3.1em; white-space: pre-wrap; }
+.dlg .text.thought { font-style: italic; color: #6b5a69; }
+.dlg .more { position: absolute; right: 18px; bottom: 14px; font-size: 14px; color: var(--rose-deep); animation: bob 1s infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(4px) } }
+.dlg .hint { position: absolute; left: 18px; bottom: 14px; font-size: 11px; color: #a08c9e; }
+.dlg.hiddenmode { background: #2E3A59; color: #fff; }
+.dlg.hiddenmode .text.thought { color: #cfd6e6; }
+.dlg.hiddenmode .hint { color: #9aa6c4; }
+.badge-tag { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); background: #2E3A59; color: #fff;
+  font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; z-index: 5; letter-spacing: .1em; }
+
+/* ---------- S4 Reward ---------- */
+#s-reward { background: linear-gradient(180deg, #FFF1E0 0%, var(--cream) 50%); }
+#s-reward .title { font-size: 14px; font-weight: 700; color: var(--rose-deep); letter-spacing: .15em; }
+#s-reward .big { font-size: 56px; font-weight: 900; color: #8a6a00; margin: 6px 0; }
+#s-reward .big small { font-size: 22px; }
+#s-reward .row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+#s-reward .chip { background: #fff; border-radius: 14px; padding: 12px 16px; font-size: 15px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+#s-reward .chip.new { background: var(--rose); color: #fff; animation: pop .4s ease; }
+#s-reward .chip.badge { background: #2E3A59; color: #fff; }
+@keyframes pop { 0% { transform: scale(.6) } 70% { transform: scale(1.1) } 100% { transform: scale(1) } }
+#s-reward .tbc { margin-top: 24px; font-size: 14px; line-height: 1.6; color: #6b5a69; padding: 0 12px; }
+#s-reward .tbc b { display: block; font-size: 18px; color: var(--text); letter-spacing: .1em; margin-bottom: 4px; }
+
+/* ---------- S5 Album ---------- */
+#s-album .list { flex: 1; overflow-y: auto; padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+.arow { background: #fff; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.arow.locked { opacity: .5; }
+.arow .num { width: 36px; height: 36px; border-radius: 50%; background: var(--rose); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; flex: none; }
+.arow.locked .num { background: #d8ccd6; }
+.arow .info { flex: 1; min-width: 0; }
+.arow .t { font-weight: 700; font-size: 15px; }
+.arow .s { font-size: 12px; color: #8a7a88; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arow .hb { font-size: 12px; margin-top: 4px; }
+.arow .hb.got { color: #2E3A59; font-weight: 700; }
+.arow .play { border: 0; background: var(--gold); border-radius: 12px; min-width: 64px; min-height: 44px; font-weight: 700; font-size: 13px; cursor: pointer; }
+.arow .play.cur { background: var(--rose); color: #fff; }
+#s-album .stat { padding: 0 16px 8px; font-size: 13px; color: #8a7a88; }
+
+/* ---------- 에러 ---------- */
+#s-error { background: #fff; }
+#s-error code { display: block; background: #f3eef2; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px; text-align: left; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="s-title" class="screen"></div>
+  <div id="s-intro" class="screen"></div>
+  <div id="s-dress" class="screen"></div>
+  <div id="s-scene" class="screen"></div>
+  <div id="s-reward" class="screen"></div>
+  <div id="s-album" class="screen"></div>
+  <div id="s-error" class="screen"></div>
+  <div id="toast" class="toast"></div>
+</div>
+
+<script>
+/* =====================================================================
+   1. CONFIG — 상수, 경로, 저장키. 숫자·이름은 여기와 data/*.json 에만.
+   ===================================================================== */
+const CFG = {
+  ROOT: '../../',                       // 프로젝트 루트 (data/, assets/ 기준)
+  SAVE_KEY: 'sv.dressstory.v1',
+  FIRST_STAGE: 1,
+  MAX_LINE: 40,                         // 대사 한 줄 최대 글자 (초과 시 콘솔 경고)
+  TYPE_MS: 28,                          // 타자 효과 글자당 ms
+  W: 360, H: 640,
+  // 플레이스홀더 인형: 레이어별 [left%, top%, width%, height%]
+  DOLL_REGION: {
+    hair_back: [22, 0, 56, 60], body: [30, 12, 40, 84], bottom: [27, 52, 46, 26],
+    top: [24, 32, 52, 22], dress: [22, 32, 56, 46], shoes: [30, 90, 40, 9],
+    bag: [72, 54, 20, 16], face: [37, 9, 26, 18], hair_front: [33, 1, 34, 14], hair_acc: [29, 3, 12, 8]
+  },
+  DOLL_COLOR: { hair_back: '#8B5A3C', body: '#FFE0C8', face: '#FFE9D6', hair_front: '#9C6644', hair_acc: '#F5C542', shoes: '#B98A6B' },
+  COSTUME_ORDER: ['hair_back', 'body', 'bottom', 'top', 'dress', 'shoes', 'bag', 'face', 'hair_front', 'hair_acc'],
+  PLACE_BG: { studio: '#FFD6E0', plaza: '#2E3A59', cafe: '#D9C6A5', garden: '#BFE3B4' }
+};
+
+/* =====================================================================
+   2. DATA LOAD — characters/costumes/stages fetch + 플레이스홀더 폴백
+   ===================================================================== */
+const D = { chars: {}, costumes: {}, stages: {}, order: [], missing: new Set() };
+
+async function loadJSON(path) {
+  const r = await fetch(CFG.ROOT + path, { cache: 'no-store' });
+  if (!r.ok) throw new Error(path + ' → HTTP ' + r.status);
+  return r.json();
+}
+async function loadData() {
+  D.chars = await loadJSON('data/characters.json');
+  D.costumes = await loadJSON('data/costumes.json');
+  // stage_001 부터 next 를 따라간다. 파일이 없으면 거기까지가 연재분.
+  let id = CFG.FIRST_STAGE, guard = 0;
+  while (id && guard++ < 999) {
+    const st = await loadJSON('data/stages/stage_' + String(id).padStart(3, '0') + '.json');
+    D.stages[st.id] = st; D.order.push(st.id);
+    id = st.next;
+  }
+}
+
+// 이미지 요소. 파일이 없으면 색 박스 + 라벨(플레이스홀더 모드).
+function imgEl(src, label, color, cls, onFail) {
+  const el = document.createElement('div');
+  el.className = 'img ' + (cls || '');
+  const ph = () => { el.classList.add('ph'); el.style.background = color || '#eee'; el.textContent = label; if (onFail) onFail(el); };
+  if (!src || D.missing.has(src)) { ph(); return el; }
+  const im = new Image();
+  im.onerror = () => { D.missing.add(src); im.remove(); ph(); };
+  im.src = CFG.ROOT + src;
+  el.appendChild(im);
+  return el;
+}
+function charName(id) {
+  const c = D.chars[id]; if (!c) return id;
+  if (c.reveal_name && c.reveal_stage && G.cleared.some(s => s >= c.reveal_stage)) return c.reveal_name;
+  return c.name;
+}
+function portraitEl(id) {
+  const c = D.chars[id] || {};
+  return imgEl(c.portrait, charName(id)[0] || '?', c.color, 'portrait');
+}
+function bgEl(stage) {
+  const el = imgEl(stage.background, stage.place + ' / ' + stage.background, CFG.PLACE_BG[stage.place] || '#ddd', 'bg');
+  return el;
+}
+// 리아 인형(파츠 레이어). exp 가 있으면 face 자리에 표정 이미지.
+function dollEl(costumeId, exp) {
+  const doll = document.createElement('div'); doll.className = 'doll';
+  const ria = D.chars.ria || {}, gl = ria.game_layers || {}, cos = D.costumes[costumeId] || {}, cl = cos.layers || {};
+  for (const key of CFG.COSTUME_ORDER) {
+    let src = null, color = CFG.DOLL_COLOR[key], label = key;
+    if (key in gl) { src = gl[key]; if (key === 'face' && exp && ria.expressions && ria.expressions[exp]) { src = ria.expressions[exp]; label = 'face:' + exp; } }
+    else if (key in cl) { src = cl[key]; color = cos.color; label = key + '\n' + costumeId; }
+    else continue;
+    if (src === null && key in cl) continue;           // bag: null 처럼 명시적 없음
+    const layer = imgEl(src, label, color, 'layer', el => {
+      const r = CFG.DOLL_REGION[key] || [25, 25, 50, 50];
+      el.style.left = r[0] + '%'; el.style.top = r[1] + '%'; el.style.width = r[2] + '%'; el.style.height = r[3] + '%';
+    });
+    doll.appendChild(layer);
+  }
+  return doll;
+}
+
+/* =====================================================================
+   3. STATE — game state, save/load
+   ===================================================================== */
+const G = {
+  stage: CFG.FIRST_STAGE,   // 진행 중(다음에 열릴) 스테이지
+  stardust: 0, affection: 0,
+  album: [],                // [{stage, costumes:[...], badge:bool}]  클리어 기록
+  costumes: [],             // 보유 의상 id
+  cleared: [],              // 클리어한 stage id (album 에서 파생, 편의용)
+  cur: null                 // 현재 플레이 {stage, costume, replay, hidden}
+};
+function defaultCostumes() { return Object.keys(D.costumes).filter(id => !(D.costumes[id].price > 0)); }
+function newGame() {
+  G.stage = CFG.FIRST_STAGE; G.stardust = 0; G.affection = 0; G.album = []; G.costumes = defaultCostumes(); G.cleared = []; G.cur = null;
+  save();
+}
+function save() {
+  const s = { stage: G.stage, stardust: G.stardust, affection: G.affection, album: G.album, costumes: G.costumes };
+  try { localStorage.setItem(CFG.SAVE_KEY, JSON.stringify(s)); } catch (e) { console.warn('save 실패', e); }
+}
+function load() {
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(CFG.SAVE_KEY) || 'null'); } catch (e) { s = null; }
+  if (!s) return false;
+  G.stage = s.stage || CFG.FIRST_STAGE; G.stardust = s.stardust || 0; G.affection = s.affection || 0;
+  G.album = s.album || []; G.costumes = Array.from(new Set([...(s.costumes || []), ...defaultCostumes()]));
+  G.cleared = G.album.map(a => a.stage);
+  return true;
+}
+function hasSave() { try { return !!localStorage.getItem(CFG.SAVE_KEY); } catch (e) { return false; } }
+function albumOf(id) { return G.album.find(a => a.stage === id); }
+function isCleared(id) { return G.cleared.includes(id); }
+function badgeCount() { return G.album.filter(a => a.badge).length; }
+
+/* =====================================================================
+   4. RENDER — 화면 하나 = 함수 하나
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+function h(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function btn(label, cls, fn) { const b = h('button', 'btn ' + (cls || ''), label); b.onclick = fn; return b; }
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._tm); t._tm = setTimeout(() => t.classList.remove('on'), 1400); }
+function topbar(left, right) {
+  const tb = h('div', 'topbar');
+  const l = h('div'); if (left) l.appendChild(left);
+  const r = h('div'); r.style.display = 'flex'; r.style.gap = '8px'; r.style.alignItems = 'center';
+  r.appendChild(Object.assign(h('span', 'pill gold', '★ ' + G.stardust), { id: 'hud-star' }));
+  r.appendChild(h('span', 'pill', '♥ ' + G.affection));
+  if (right) r.appendChild(right);
+  tb.append(l, r); return tb;
+}
+
+// S0 Title
+function renderTitle(root) {
+  const c = h('div', 'center');
+  c.appendChild(h('div', 'logo-sm', 'STARRY VILLAGE'));
+  c.appendChild(h('div', 'logo', 'Dress\nStory'));
+  c.appendChild(h('div', 'sub', '옷을 고르면, 이야기가 달라져요'));
+  c.appendChild(h('div', 'stars', '★ ★ ★')).style.marginTop = '20px';
+  if (hasSave()) c.appendChild(h('div', 'sub', '★ ' + G.stardust + '  ·  ♥ ' + G.affection + '  ·  Stage ' + G.stage));
+  root.appendChild(c);
+  const b = h('div', 'bottom');
+  if (hasSave()) {
+    b.appendChild(btn('이어하기', 'gold', () => startStage(G.stage)));
+    b.appendChild(btn('앨범', '', () => goto('album')));
+    let armed = false;
+    const nb = btn('처음부터', 'ghost', () => {
+      if (!armed) { armed = true; nb.textContent = '정말 처음부터? (저장이 지워져요) — 한 번 더 누르기'; setTimeout(() => { armed = false; nb.textContent = '처음부터'; }, 3000); return; }
+      newGame(); startStage(G.stage);
+    });
+    b.appendChild(nb);
+  } else {
+    b.appendChild(btn('시작', 'gold', () => { newGame(); startStage(G.stage); }));
+  }
+  root.appendChild(b);
+}
+
+// S1 Story-Intro
+function renderIntro(root) {
+  const st = D.stages[G.cur.stage];
+  root.appendChild(bgEl(st));
+  root.appendChild(topbar(h('span', 'pill', 'Stage ' + st.id), null));
+  const card = h('div', 'card');
+  card.appendChild(h('div', 'star-icon', '⭐'));
+  card.appendChild(h('div', 'stagenum', 'STAGE ' + st.id + (G.cur.replay ? ' · 다시 보기' : '')));
+  card.appendChild(h('h1', '', st.title));
+  card.appendChild(h('p', 'situation', st.situation));
+  root.appendChild(card);
+  const b = h('div', 'bottom');
+  b.appendChild(btn('옷 고르러 가기 →', 'gold', () => goto('dress')));
+  b.appendChild(btn('← 타이틀', 'ghost', () => goto('title')));
+  root.appendChild(b);
+}
+
+// S2 DressUp
+function renderDressUp(root) {
+  const st = D.stages[G.cur.stage];
+  const choices = st.costume_choices.filter(id => D.costumes[id]);
+  if (!G.cur.costume || !choices.includes(G.cur.costume)) G.cur.costume = choices.find(id => G.costumes.includes(id)) || choices[0];
+  root.appendChild(bgEl(st));
+  root.appendChild(topbar(h('span', 'pill', st.title), null));
+
+  const pv = h('div', 'preview'); root.appendChild(pv);
+  const nameEl = h('div', 'cname'); pv.appendChild(nameEl);
+  const rack = h('div', 'rack'); root.appendChild(rack);
+  const b = h('div', 'bottom'); root.appendChild(b);
+  const go = btn('이 옷으로!', 'gold', () => goto('scene')); b.appendChild(go);
+
+  function draw() {
+    pv.querySelector('.doll')?.remove();
+    pv.insertBefore(dollEl(G.cur.costume, null), nameEl);
+    const cos = D.costumes[G.cur.costume];
+    const owned = G.costumes.includes(G.cur.costume);
+    nameEl.textContent = cos.name + (owned ? '' : '  🔒 ' + cos.price + '★');
+    go.disabled = !owned;
+    rack.querySelectorAll('.ccard').forEach(c => c.classList.toggle('sel', c.dataset.id === G.cur.costume));
+    const hud = $('hud-star'); if (hud) hud.textContent = '★ ' + G.stardust;
+  }
+  for (const id of choices) {
+    const cos = D.costumes[id];
+    const card = h('div', 'ccard'); card.dataset.id = id;
+    const owned = () => G.costumes.includes(id);
+    card.appendChild(imgEl(cos.layers?.dress || cos.layers?.top, id, cos.color, 'swatch'));
+    card.appendChild(h('div', 'nm', cos.name));
+    if (!owned()) { card.classList.add('locked'); card.appendChild(h('span', 'lock', '🔒 ' + cos.price)); }
+    card.onclick = () => {
+      G.cur.costume = id;
+      if (!owned()) {
+        if (G.stardust >= cos.price) {            // 별조각으로 해금
+          G.stardust -= cos.price; G.costumes.push(id); save();
+          card.classList.remove('locked'); card.querySelector('.lock')?.remove();
+          toast(cos.name + ' 해금! (-' + cos.price + '★)');
+        } else toast('별조각이 부족해요 (' + cos.price + '★ 필요)');
+      }
+      draw();
+    };
+    rack.appendChild(card);
+  }
+  draw();
+}
+
+// S3 Scene — 대사는 §6 DIALOGUE 가 진행, 여기서는 무대만 그린다
+function renderScene(root) {
+  const st = D.stages[G.cur.stage];
+  root.appendChild(bgEl(st));
+  root.appendChild(topbar(h('span', 'pill', st.title), null));
+  const hero = h('div', 'hero');
+  const cos = D.costumes[G.cur.costume] || {};
+  const hImg = imgEl(cos.hero, 'hero\n' + G.cur.costume, null, 'heroimg', el => { el.replaceWith(dollEl(G.cur.costume, null)); });
+  hero.appendChild(hImg);
+  root.appendChild(hero);
+  const actors = h('div', 'actors');
+  actors.appendChild(Object.assign(h('div', 'slot L hidden'), { id: 'slot-l' }));
+  const r = h('div', 'slot R'); r.id = 'slot-r'; r.appendChild(portraitEl('ria')); actors.appendChild(r);
+  root.appendChild(actors);
+  const dlg = h('div', 'dlg'); dlg.id = 'dlg';
+  dlg.appendChild(Object.assign(h('div', 'name'), { id: 'dlg-name' }));
+  dlg.appendChild(Object.assign(h('div', 'text'), { id: 'dlg-text' }));
+  dlg.appendChild(h('div', 'hint', '탭하면 다음'));
+  dlg.appendChild(Object.assign(h('div', 'more', '▼'), { id: 'dlg-more' }));
+  dlg.onclick = dlgTap;
+  root.appendChild(dlg);
+  startDialogue(buildLines(st));
+}
+
+// S4 Reward
+function renderReward(root) {
+  const st = D.stages[G.cur.stage], rw = st.reward || {}, res = G.cur.result;
+  root.appendChild(topbar(h('span', 'pill', 'Stage ' + st.id + ' 클리어'), null));
+  const c = h('div', 'center');
+  c.appendChild(h('div', 'title', res.first ? 'STAGE CLEAR' : '다시 보기 완료'));
+  const big = h('div', 'big'); c.appendChild(big);
+  const n = res.first ? (rw.stardust || 0) : 0;
+  big.innerHTML = '<small>★</small> +0';
+  let k = 0; const steps = 24, tm = setInterval(() => { k++; big.innerHTML = '<small>★</small> +' + Math.round(n * k / steps); if (k >= steps) clearInterval(tm); }, 40);
+  if (!res.first) c.appendChild(h('div', 'sub', '보상은 처음 클리어할 때만 받아요'));
+  const row = h('div', 'row'); c.appendChild(row);
+  row.appendChild(h('div', 'chip', '♥ 호감도 ' + G.affection + (res.first && rw.affection ? '  (+' + rw.affection + ')' : '')));
+  if (res.unlocked) row.appendChild(h('div', 'chip new', '👗 새 의상: ' + D.costumes[res.unlocked].name));
+  if (res.badge) row.appendChild(h('div', 'chip badge', '🔍 히든 발견! ' + res.badge));
+  else if (st.hidden && !albumOf(st.id)?.badge) row.appendChild(h('div', 'chip', '🔍 숨겨진 장면이 있어요 — 다른 옷으로 다시 보기'));
+  if (!st.next) {
+    const t = h('div', 'tbc'), msg = st.to_be_continued || '다음 이야기를 기다려 주세요';
+    if (!/TO BE CONTINUED/i.test(msg)) t.appendChild(h('b', '', 'TO BE CONTINUED'));
+    t.appendChild(document.createTextNode(msg));
+    c.appendChild(t);
+  }
+  root.appendChild(c);
+  const b = h('div', 'bottom');
+  if (st.next) b.appendChild(btn('다음 이야기 →', 'gold', () => startStage(st.next)));
+  else b.appendChild(btn('앨범 보기', 'gold', () => goto('album')));
+  b.appendChild(btn('타이틀로', 'ghost', () => goto('title')));
+  root.appendChild(b);
+}
+
+// S5 Album
+function renderAlbum(root) {
+  root.appendChild(topbar(h('span', 'pill', '앨범'), Object.assign(h('button', 'iconbtn', '✕'), { onclick: () => goto('title') })));
+  root.appendChild(h('div', 'stat', '클리어 ' + G.cleared.length + '/' + D.order.length + ' · 히든 ' + badgeCount() + '/' + D.order.filter(id => D.stages[id].hidden).length + ' · 의상 ' + G.costumes.length + '/' + Object.keys(D.costumes).length));
+  const list = h('div', 'list'); root.appendChild(list);
+  for (const id of D.order) {
+    const st = D.stages[id], a = albumOf(id), open = isCleared(id) || id === G.stage;
+    const row = h('div', 'arow' + (open ? '' : ' locked'));
+    row.appendChild(h('div', 'num', String(id)));
+    const info = h('div', 'info'); row.appendChild(info);
+    info.appendChild(h('div', 't', open ? st.title : '???'));
+    if (a) info.appendChild(h('div', 's', '입은 옷: ' + a.costumes.map(c => D.costumes[c]?.name || c).join(', ')));
+    else info.appendChild(h('div', 's', open ? '아직 클리어하지 않았어요' : '이전 이야기를 먼저 보세요'));
+    if (st.hidden) info.appendChild(h('div', 'hb' + (a?.badge ? ' got' : ''), a?.badge ? '🔍 히든 발견 · ' + st.hidden.badge : '🔍 히든 ?'));
+    if (open) { const p = h('button', 'play' + (id === G.stage && !a ? ' cur' : ''), a ? '다시 보기' : '플레이'); p.onclick = () => startStage(id); row.appendChild(p); }
+    list.appendChild(row);
+  }
+}
+
+function renderError(root, err) {
+  const c = h('div', 'center');
+  c.appendChild(h('h1', '', '데이터를 못 읽었어요'));
+  c.appendChild(h('p', '', 'file:// 로 열면 fetch 가 막혀요. 프로젝트 루트에서 서버를 띄운 뒤 열어 주세요.'));
+  c.appendChild(h('code', '', 'python -m http.server 8080\nhttp://localhost:8080/games/dress-story/'));
+  c.appendChild(h('code', '', String(err)));
+  root.appendChild(c);
+  const b = h('div', 'bottom'); b.appendChild(btn('다시 시도', 'gold', () => location.reload())); root.appendChild(b);
+}
+
+/* =====================================================================
+   5. FLOW — goto(screen), startStage(), finishStage()
+   ===================================================================== */
+const SCREENS = { title: renderTitle, intro: renderIntro, dress: renderDressUp, scene: renderScene, reward: renderReward, album: renderAlbum, error: renderError };
+function goto(name, arg) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('on'); s.innerHTML = ''; });
+  stopDialogue();
+  const root = $('s-' + name); SCREENS[name](root, arg); root.classList.add('on');
+  root.scrollTop = 0;
+}
+function startStage(id) {
+  if (!D.stages[id]) { toast('아직 준비 중인 이야기예요'); return; }
+  G.cur = { stage: id, costume: null, replay: isCleared(id), hidden: false, result: null };
+  if (!isCleared(id)) { G.stage = id; save(); }
+  goto('intro');
+}
+function hiddenMet(st) {
+  const c = st.hidden?.condition; if (!c) return false;
+  if (c.replay && !G.cur.replay) return false;
+  if (c.costume && c.costume !== G.cur.costume) return false;
+  return true;
+}
+// 보상은 첫 클리어에만. 재플레이는 기록(입은 옷)과 히든 뱃지만 갱신.
+function finishStage() {
+  const st = D.stages[G.cur.stage], rw = st.reward || {};
+  const res = { first: !isCleared(st.id), unlocked: null, badge: null };
+  let a = albumOf(st.id);
+  if (!a) { a = { stage: st.id, costumes: [], badge: false }; G.album.push(a); G.cleared.push(st.id); }
+  if (!a.costumes.includes(G.cur.costume)) a.costumes.push(G.cur.costume);
+  if (res.first) {
+    G.stardust += rw.stardust || 0; G.affection += rw.affection || 0;
+    if (rw.unlock_costume && D.costumes[rw.unlock_costume] && !G.costumes.includes(rw.unlock_costume)) { G.costumes.push(rw.unlock_costume); res.unlocked = rw.unlock_costume; }
+    if (st.next && D.stages[st.next]) G.stage = st.next;
+  }
+  if (G.cur.hidden && !a.badge) { a.badge = true; res.badge = st.hidden.badge; }
+  G.cur.result = res; save();
+  goto('reward');
+}
+
+/* =====================================================================
+   6. DIALOGUE — 라인 큐, 탭 진행, variant 선택
+   ===================================================================== */
+const DL = { lines: [], i: -1, typing: null, done: false };
+// common_intro → variant[costume] → event → closing_question(리아 속마음) → [hidden scene]
+function buildLines(st) {
+  const d = st.dialogue || {}, v = (d.variant || {})[G.cur.costume] || [];
+  const lines = [...(d.common_intro || []), ...v, ...(d.event || [])];
+  if (d.closing_question) lines.push({ who: 'ria', text: d.closing_question, thought: true });
+  if (hiddenMet(st)) { G.cur.hidden = true; for (const l of st.hidden.scene || []) lines.push({ ...l, hidden: true }); }
+  for (const l of lines) if (l.text.length > CFG.MAX_LINE) console.warn('[dialogue] ' + l.text.length + '자 > ' + CFG.MAX_LINE + ': ' + l.text);
+  return lines;
+}
+function startDialogue(lines) { DL.lines = lines; DL.i = -1; DL.done = false; nextLine(); }
+function stopDialogue() { clearInterval(DL.typing); DL.typing = null; }
+function nextLine() {
+  DL.i++;
+  if (DL.i >= DL.lines.length) { DL.done = true; finishStage(); return; }
+  const l = DL.lines[DL.i], c = D.chars[l.who] || { name: l.who, color: '#999' };
+  const dlg = $('dlg'), nm = $('dlg-name'), tx = $('dlg-text');
+  dlg.classList.toggle('hiddenmode', !!l.hidden);
+  if (l.hidden && !$('badge-tag')) { const t = h('div', 'badge-tag', '🔍 HIDDEN SCENE'); t.id = 'badge-tag'; $('s-scene').appendChild(t); }
+  nm.textContent = charName(l.who); nm.style.background = c.color;
+  tx.className = 'text' + (l.thought ? ' thought' : '');
+  // 초상: 리아는 오른쪽 고정, 그 외 화자는 왼쪽
+  const sl = $('slot-l'), sr = $('slot-r');
+  if (l.who === 'ria') { sr.classList.add('active'); sl.classList.remove('active'); }
+  else { sl.innerHTML = ''; sl.appendChild(portraitEl(l.who)); sl.classList.remove('hidden'); sl.classList.add('active'); sr.classList.remove('active'); }
+  if (l.exp) { sr.innerHTML = ''; sr.appendChild(imgEl(D.chars.ria?.expressions?.[l.exp], l.exp, D.chars.ria?.color, 'portrait')); }
+  // 타자 효과 — 탭하면 즉시 완성
+  stopDialogue(); tx.textContent = ''; $('dlg-more').style.visibility = 'hidden';
+  let k = 0; const full = l.text;
+  DL.typing = setInterval(() => { k++; tx.textContent = full.slice(0, k); if (k >= full.length) { stopDialogue(); $('dlg-more').style.visibility = ''; } }, CFG.TYPE_MS);
+}
+function dlgTap() {
+  if (DL.done) return;
+  if (DL.typing) { stopDialogue(); $('dlg-text').textContent = DL.lines[DL.i].text; $('dlg-more').style.visibility = ''; return; }
+  nextLine();
+}
+
+/* =====================================================================
+   7. ADS — 스텁. 실제 SDK 없음. 항상 즉시 성공.
+   ===================================================================== */
+function showRewardedAd(cb) { setTimeout(() => cb(true), 0); }
+
+/* =====================================================================
+   8. BOOT
+   ===================================================================== */
+function fit() {
+  const s = Math.min(window.innerWidth / CFG.W, window.innerHeight / CFG.H);
+  const st = $('stage');
+  st.style.transform = 'scale(' + s + ')';
+  st.style.left = Math.round((window.innerWidth - CFG.W * s) / 2) + 'px';
+  st.style.top = Math.round((window.innerHeight - CFG.H * s) / 2) + 'px';
+}
+window.addEventListener('resize', fit);
+(async function boot() {
+  fit();
+  try { await loadData(); } catch (e) { console.error(e); goto('error', e); return; }
+  if (!load()) G.costumes = defaultCostumes();
+  goto('title');
+})();
+</script>
+</body>
+</html>
