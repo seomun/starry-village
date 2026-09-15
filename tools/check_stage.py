@@ -2,6 +2,7 @@
 규칙: 대사 한 줄 40자 이내, 스테이지당 대사 6줄 이내(intro+variant 1개+event 기준),
 who 는 characters.json 에 있어야, costume 은 costumes.json 에 있어야, closing_question 필수."""
 import json, sys, glob, os
+sys.stdout.reconfigure(encoding="utf-8")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def load(p):
     with open(p, encoding="utf-8") as f: return json.load(f)

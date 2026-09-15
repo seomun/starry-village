@@ -1,6 +1,7 @@
 """data/*.json 이 참조하는 이미지 파일 존재 여부. python tools/check_assets.py
 없는 파일은 게임에서 플레이스홀더로 뜬다. 목록을 보고 assets/ 에 채우면 코드 수정 없이 반영."""
-import json, os, glob
+import json, os, glob, sys
+sys.stdout.reconfigure(encoding="utf-8")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def load(p):
     with open(os.path.join(ROOT, p), encoding="utf-8") as f: return json.load(f)
