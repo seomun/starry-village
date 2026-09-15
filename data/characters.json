@@ -15,9 +15,9 @@
       "sad": "assets/characters/ria/exp_sad.png", "love": "assets/characters/ria/exp_love.png"
     }
   },
-  "prince": { "name": "???", "reveal_name": "루안", "reveal_stage": 18, "role": "prince",
-              "color": "#2E3A59", "portrait": "assets/characters/prince/portrait.png" },
-  "rival":  { "name": "엘라", "role": "rival", "color": "#7B1E3A", "portrait": "assets/characters/rival/portrait.png" },
-  "goofy":  { "name": "토토", "role": "goofy", "color": "#F28C28", "portrait": "assets/characters/goofy/portrait.png" },
-  "star":   { "name": "별이", "role": "narrator", "color": "#FFE066", "portrait": "assets/characters/star/portrait.png" }
+  "prince": { "name": "???", "reveal_name": "레오", "reveal_stage": 18, "role": "prince",
+              "color": "#3B5BA5", "portrait": "assets/characters/prince/portrait.png" },
+  "rival":  { "name": "예나", "role": "rival", "color": "#8B5FBF", "portrait": "assets/characters/rival/portrait.png" },
+  "goofy":  { "name": "현", "role": "goofy", "color": "#4CAF7A", "portrait": "assets/characters/goofy/portrait.png" },
+  "star":   { "name": "소라", "role": "narrator", "color": "#F2C94C", "portrait": "assets/characters/star/portrait.png" }
 }
