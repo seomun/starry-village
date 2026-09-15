@@ -101,7 +101,7 @@ h1 { margin: 0; font-size: 22px; }
 #s-scene .hero { position: absolute; left: 0; right: 0; top: 48px; bottom: 214px; display: flex; align-items: center; justify-content: center; z-index: 1; }
 #s-scene .hero .img.heroimg { width: 360px; height: 100%; }
 #s-scene .hero .doll { transform: scale(.95); }
-.actors { position: absolute; left: 0; right: 0; bottom: 200px; height: 72px; z-index: 3; pointer-events: none; }
+.actors { position: absolute; left: 0; right: 0; bottom: 218px; height: 72px; z-index: 3; pointer-events: none; }
 .actors .slot { position: absolute; bottom: 0; transition: opacity .2s, transform .2s; opacity: .45; transform: scale(.85); }
 .actors .slot.active { opacity: 1; transform: scale(1); }
 .actors .slot.L { left: 14px; } .actors .slot.R { right: 14px; }
@@ -245,7 +245,7 @@ function dollEl(costumeId, exp) {
     if (key in gl) { src = gl[key]; if (key === 'face' && exp && ria.expressions && ria.expressions[exp]) { src = ria.expressions[exp]; label = 'face:' + exp; } }
     else if (key in cl) { src = cl[key]; color = cos.color; label = key + '\n' + costumeId; }
     else continue;
-    if (src === null && key in cl) continue;           // bag: null 처럼 명시적 없음
+    if (src === null) continue;                        // null = 이 레이어 없음 (플레이스홀더도 안 그림)
     const layer = imgEl(src, label, color, 'layer', el => {
       const r = CFG.DOLL_REGION[key] || [25, 25, 50, 50];
       el.style.left = r[0] + '%'; el.style.top = r[1] + '%'; el.style.width = r[2] + '%'; el.style.height = r[3] + '%';
@@ -402,8 +402,8 @@ function renderScene(root) {
   root.appendChild(topbar(h('span', 'pill', st.title), null));
   const hero = h('div', 'hero');
   const cos = D.costumes[G.cur.costume] || {};
-  const hImg = imgEl(cos.hero, 'hero\n' + G.cur.costume, null, 'heroimg', el => { el.replaceWith(dollEl(G.cur.costume, null)); });
-  hero.appendChild(hImg);
+  if (cos.hero) hero.appendChild(imgEl(cos.hero, 'hero', null, 'heroimg', el => { el.replaceWith(dollEl(G.cur.costume, null)); }));
+  else hero.appendChild(dollEl(G.cur.costume, null));   // hero 없음 → 인형 확대
   root.appendChild(hero);
   const actors = h('div', 'actors');
   actors.appendChild(Object.assign(h('div', 'slot L hidden'), { id: 'slot-l' }));

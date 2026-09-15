@@ -2,13 +2,7 @@
   "ria": {
     "name": "리아", "role": "hero", "color": "#F4A7B9",
     "portrait": "assets/characters/ria/portrait.png",
-    "game_layers": {
-      "body": "assets/characters/ria/game_body.png",
-      "hair_back": "assets/characters/ria/game_hair_back.png",
-      "face": "assets/characters/ria/game_face.png",
-      "hair_front": "assets/characters/ria/game_hair_front.png",
-      "hair_acc": "assets/characters/ria/game_hair_acc.png"
-    },
+    "game_layers": { "body": null, "hair_back": null, "face": null, "hair_front": null, "hair_acc": null },
     "expressions": {
       "joy": "assets/characters/ria/exp_joy.png", "surprise": "assets/characters/ria/exp_surprise.png",
       "shy": "assets/characters/ria/exp_shy.png", "angry": "assets/characters/ria/exp_angry.png",

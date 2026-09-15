@@ -8,8 +8,10 @@ def load(p):
 refs = []  # (출처, 경로)
 for cid, c in load("data/characters.json").items():
     if c.get("portrait"): refs.append((f"characters.{cid}.portrait", c["portrait"]))
-    for k, v in (c.get("game_layers") or {}).items(): refs.append((f"characters.{cid}.game_layers.{k}", v))
-    for k, v in (c.get("expressions") or {}).items(): refs.append((f"characters.{cid}.expressions.{k}", v))
+    for k, v in (c.get("game_layers") or {}).items():
+        if v: refs.append((f"characters.{cid}.game_layers.{k}", v))
+    for k, v in (c.get("expressions") or {}).items():
+        if v: refs.append((f"characters.{cid}.expressions.{k}", v))
 for cid, c in load("data/costumes.json").items():
     for k, v in (c.get("layers") or {}).items():
         if v: refs.append((f"costumes.{cid}.layers.{k}", v))
