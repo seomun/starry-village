@@ -9,18 +9,20 @@
   (헤드리스 크롬 자동 플레이 스크린샷: `notes/2026-09-15_p1_headless_playthrough.png`).
 - 구현 결정: 보상(별조각·호감도·해금)은 **첫 클리어에만**. 재플레이는 앨범의 "입은 옷" 기록과 히든 뱃지만 갱신.
 - 이미지: GPT 시트 4장 `assets/characters/{ria,prince}/_concept/`, `assets/characters/_concept/cast_sheet.png`.
-  시트에서 잘라 넣음(rembg `isnet-anime` 로 배경 제거): 초상 5 + 리아 표정 6 + 의상 전신 7(c001~c007) + hero 4. 배경 3장(`assets/backgrounds/`, GPT 3연작 시트를 3등분, 원본 `_concept/backgrounds_sheet.png`). `python tools/check_assets.py` → 없음 0.
+  시트에서 잘라 넣음(rembg `isnet-anime` 로 배경 제거): 초상 5 + 리아 표정 6 + 의상 전신 7(c001~c007) + hero 4. 배경 3장(`assets/backgrounds/`, GPT 3연작 시트를 3등분, 원본 `_concept/backgrounds_sheet.png`). `python tools/check_assets.py` → 배경 2장 없음(post_office, star_house — 플레이스홀더로 돌아감).
 - P1 지름길 적용: `characters.json.game_layers` 전부 null, 의상은 `layers.dress` 전신 한 장. 파츠 분리는 P2.
 - 의상 매핑(시트 기준): c001 크림 원피스(A 게임용 캐릭터) · c002 핑크 파티(B 파티룩) · c003 네이비 리본룩(B 학교룩) · c004 카페 캐주얼(B 기본복) ·
-  c005 가든 플라워룩(A 기본복) · c006 하늘빛 여행룩(B 여행룩, 캐리어 포함, 200★) · c007 별꿈 잠옷(B 잠옷룩, 200★). c006/c007 은 아직 어느 스테이지에도 안 나옴.
+  c005 가든 플라워룩(A 기본복) · c006 하늘빛 여행룩(B 여행룩, 캐리어 포함, 200★) · c007 별꿈 잠옷(B 잠옷룩, 200★). c007 은 S4 보상, c006 은 S5 보상.
 - 자르기 스크립트는 세션 스크래치에만 있었음. 다시 자를 일 있으면 좌표는 DEVLOG 2026-09-15 참고 없이 시트를 보고 새로 잡는다.
-- `tools/check_stage.py` 3개 통과.
+- Stage 1~6 (`data/stages/`, 시드 `content/seeds/seed_004~006.md`). 시즌 1-1 = S6 「시계탑 아래에서」에서 TO BE CONTINUED. `check_stage.py` 6개 통과.
+  S4 우체국(편지·별 문양 도장) → S5 파자마 파티(시계탑 불빛 신호) → S6 시계탑(손수건, 레오 "못 봤군"). 정체는 아직 안 드러남(S07 무심한 해결, S12 예나 알아봄 페이스 유지).
 
 ## 다음 할 일 (순서대로)
 1. 폰 실기 확인(`python -m http.server 8080` → 같은 와이파이) 스크린샷 → `notes/2026-MM-DD_p1_phone.md`.
-2. Stage 4~6 시드 작성(`content/seeds/`), c006/c007 을 선택지에 넣기.
-3. (P2) 리아 파츠 분리 → `game_layers` 채우기.
-4. (품질) 배경은 가로 941×549 라 폰에서 가운데 1/3 만 보임 + 하단에 그려진 대사창 틀. 나중에 세로 720×1280·틀 없이 재생성.
+2. 배경 2장 GPT 생성 → `assets/backgrounds/post_office.png`, `star_house.png` (프롬프트 `assets/README.md`).
+3. S7 시드: 「카페의 새 아르바이트생」 — 레오가 카페 알바로 등장, 밀린 주문을 무심한 한마디로 해결(정체 페이스 S07). 쇼츠 대본 첫 2개(S1, S5 현 화단).
+4. (P2) 리아 파츠 분리 → `game_layers` 채우기.
+5. (품질) 배경은 가로 941×549 라 폰에서 가운데 1/3 만 보임 + 하단에 그려진 대사창 틀. 나중에 세로 720×1280·틀 없이 재생성.
 
 ## 열린 질문
 - 리아 Hero 이미지 최종 선택 (시트 2장 중).

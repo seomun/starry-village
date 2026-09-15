@@ -1,0 +1,90 @@
+{
+  "id": 6,
+  "title": "시계탑 아래에서",
+  "place": "plaza",
+  "background": "assets/backgrounds/plaza_night.png",
+  "situation": "별빛 축제의 밤. 편지가 말한 시계탑 아래로 가자.",
+  "costume_choices": [
+    "c002",
+    "c003",
+    "c006"
+  ],
+  "dialogue": {
+    "common_intro": [
+      {
+        "who": "star",
+        "text": "드디어 축제 밤! 시계탑으로 가자!"
+      }
+    ],
+    "variant": {
+      "c002": [
+        {
+          "who": "rival",
+          "text": "…또 그 드레스. 오늘은 봐줄게."
+        },
+        {
+          "who": "ria",
+          "text": "고, 고마워…?",
+          "exp": "surprise"
+        }
+      ],
+      "c003": [
+        {
+          "who": "prince",
+          "text": "첫 파티 때 그 옷이네요."
+        },
+        {
+          "who": "ria",
+          "text": "…기억하고 있었어요?",
+          "exp": "shy"
+        }
+      ],
+      "c006": [
+        {
+          "who": "goofy",
+          "text": "여행 가? 나도 데려가!"
+        },
+        {
+          "who": "ria",
+          "text": "축제야, 현.",
+          "exp": "joy"
+        }
+      ]
+    },
+    "event": [
+      {
+        "who": "star",
+        "text": "종이 울렸는데… 시계탑 아래엔 아무도 없었다."
+      },
+      {
+        "who": "star",
+        "text": "별 문양 손수건 하나만 놓여 있었다."
+      },
+      {
+        "who": "prince",
+        "text": "(멀리서) …다행이다. 못 봤군."
+      }
+    ],
+    "closing_question": "레오는 대체 뭘 못 봤다는 거지?"
+  },
+  "reward": {
+    "stardust": 150,
+    "affection": 1,
+    "unlock_costume": null
+  },
+  "hidden": {
+    "condition": {
+      "replay": true,
+      "costume": "c003"
+    },
+    "scene": [
+      {
+        "who": "prince",
+        "text": "(시계탑 위) 아직은… 때가 아니야."
+      }
+    ],
+    "badge": "prince_secret_03"
+  },
+  "next": null,
+  "to_be_continued": "TO BE CONTINUED — 다음 이야기: 카페의 새 아르바이트생"
+}

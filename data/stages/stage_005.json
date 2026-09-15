@@ -1,0 +1,89 @@
+{
+  "id": 5,
+  "title": "파자마 파티의 비밀",
+  "place": "star_house",
+  "background": "assets/backgrounds/star_house.png",
+  "situation": "오늘 밤은 소라랑 파자마 파티! 편지 얘기도 해야지.",
+  "costume_choices": [
+    "c001",
+    "c005",
+    "c007"
+  ],
+  "dialogue": {
+    "common_intro": [
+      {
+        "who": "star",
+        "text": "오늘은 우리끼리 밤새 수다야!"
+      }
+    ],
+    "variant": {
+      "c001": [
+        {
+          "who": "star",
+          "text": "자면서도 원피스야?"
+        },
+        {
+          "who": "ria",
+          "text": "혹시 몰라서…",
+          "exp": "shy"
+        }
+      ],
+      "c005": [
+        {
+          "who": "star",
+          "text": "자러 와서 꽃무늬 카디건?"
+        },
+        {
+          "who": "ria",
+          "text": "…예쁘잖아.",
+          "exp": "joy"
+        }
+      ],
+      "c007": [
+        {
+          "who": "star",
+          "text": "잠옷 커플룩! 완전 귀여워!"
+        },
+        {
+          "who": "ria",
+          "text": "헤헤, 소라 것도 골랐어.",
+          "exp": "love"
+        }
+      ]
+    },
+    "event": [
+      {
+        "who": "star",
+        "text": "창밖 시계탑에… 불이 켜졌다 꺼졌다 해."
+      },
+      {
+        "who": "goofy",
+        "text": "(밖에서) 리아! 편지 주인 찾았… 앗."
+      },
+      {
+        "who": "star",
+        "text": "…현이 화단에 떨어지는 소리가 났다."
+      }
+    ],
+    "closing_question": "시계탑 불빛… 누가 신호를 보내는 걸까?"
+  },
+  "reward": {
+    "stardust": 100,
+    "affection": 1,
+    "unlock_costume": "c006"
+  },
+  "hidden": {
+    "condition": {
+      "replay": true,
+      "costume": "c007"
+    },
+    "scene": [
+      {
+        "who": "star",
+        "text": "(속삭임) 사실 나, 예나한테 들은 게 있어."
+      }
+    ],
+    "badge": "sora_secret_01"
+  },
+  "next": 6
+}

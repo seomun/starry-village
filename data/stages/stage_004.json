@@ -1,0 +1,89 @@
+{
+  "id": 4,
+  "title": "별빛 우체국의 편지",
+  "place": "post_office",
+  "background": "assets/backgrounds/post_office.png",
+  "situation": "발신인 없는 편지가 왔어. 우체국에 물어보러 가자!",
+  "costume_choices": [
+    "c001",
+    "c003",
+    "c004"
+  ],
+  "dialogue": {
+    "common_intro": [
+      {
+        "who": "star",
+        "text": "편지에 이름도 없다니, 수상해!"
+      }
+    ],
+    "variant": {
+      "c001": [
+        {
+          "who": "star",
+          "text": "얌전한 옷이네. 편지랑 어울려!"
+        },
+        {
+          "who": "ria",
+          "text": "…왠지 긴장돼.",
+          "exp": "shy"
+        }
+      ],
+      "c003": [
+        {
+          "who": "prince",
+          "text": "그 리본… 잘 어울려요."
+        },
+        {
+          "who": "ria",
+          "text": "…또 만났네요?",
+          "exp": "surprise"
+        }
+      ],
+      "c004": [
+        {
+          "who": "goofy",
+          "text": "리아! 나도 편지 받았… 아, 광고지네."
+        },
+        {
+          "who": "ria",
+          "text": "…역시 현이야.",
+          "exp": "joy"
+        }
+      ]
+    },
+    "event": [
+      {
+        "who": "star",
+        "text": "봉투 뒤에 별 문양 도장이 찍혀 있어."
+      },
+      {
+        "who": "prince",
+        "text": "…그 편지, 잠깐 봐도 될까요?"
+      },
+      {
+        "who": "star",
+        "text": "레오의 손이, 아주 조금 떨렸다."
+      }
+    ],
+    "closing_question": "이 편지, 대체 누가 보낸 걸까?"
+  },
+  "reward": {
+    "stardust": 100,
+    "affection": 1,
+    "unlock_costume": "c007"
+  },
+  "hidden": {
+    "condition": {
+      "replay": true,
+      "costume": "c003"
+    },
+    "scene": [
+      {
+        "who": "rival",
+        "text": "(우체국 뒤) 그 문양… 아직 쓰고 있었어?"
+      }
+    ],
+    "badge": "rival_knows_02"
+  },
+  "next": 5
+}
