@@ -1,0 +1,21 @@
+{
+  "name": "starry-village",
+  "version": "1.0.0",
+  "description": "여아 타깃 드레스업 + 짧은 스토리 → 쇼츠/블로그 파생 → 캐릭터 IP. 상세는 `CLAUDE.md`, `docs/00_MASTER.md`.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  }
+}

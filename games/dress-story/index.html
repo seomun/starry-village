@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Dress Story — Starry Village</title>
+<meta name="description" content="옷을 고르면 이야기가 달라져요. 리아의 별빛 마을 드레스업 스토리.">
+<meta name="theme-color" content="#F4A7B9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dress Story">
+<meta property="og:title" content="Dress Story — Starry Village">
+<meta property="og:description" content="옷을 고르면 이야기가 달라져요.">
+<meta property="og:image" content="../../assets/ui/icons/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../../assets/ui/icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../../assets/ui/icons/icon-180.png">
 <style>
 /* ---------- 기준 360×640, letterbox ---------- */
 :root {
@@ -573,6 +584,7 @@ function fit() {
   st.style.top = Math.round((window.innerHeight - CFG.H * s) / 2) + 'px';
 }
 window.addEventListener('resize', fit);
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 (async function boot() {
   fit();
   try { await loadData(); } catch (e) { console.error(e); goto('error', e); return; }

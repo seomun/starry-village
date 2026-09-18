@@ -2,3 +2,12 @@ __pycache__/
 *.zip
 content/images/_raw/
 notes/*_private*
+dist/
+node_modules/
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+*.keystore
+*.jks
+keystore.properties

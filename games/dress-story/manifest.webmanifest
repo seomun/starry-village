@@ -1,0 +1,17 @@
+{
+  "name": "Dress Story — Starry Village",
+  "short_name": "Dress Story",
+  "description": "옷을 고르면 이야기가 달라져요. 리아의 별빛 마을 드레스업 스토리.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8F0",
+  "theme_color": "#F4A7B9",
+  "icons": [
+    { "src": "../../assets/ui/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "../../assets/ui/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "../../assets/ui/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "appId": "com.starryvillage.dressstory",
+  "appName": "Dress Story",
+  "webDir": "dist",
+  "android": { "allowMixedContent": false, "backgroundColor": "#FFF8F0" },
+  "server": { "androidScheme": "https" }
+}
