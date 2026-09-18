@@ -6,3 +6,4 @@
 - 2026-09-15 배경 3장 반입(GPT 3연작 시트 3등분). 참조 이미지 25/25 전부 있음. 플레이스홀더 0.
 - 2026-09-15 Stage 4~6 시드+JSON(우체국/파자마/시계탑). S3 next=4 로 연결, TBC 는 S6 로 이동. 헤드리스로 6스테이지 완주 확인. 배경 2장(post_office, star_house) 필요.
 - 2026-09-16 D10: 기하학 가족을 2호 트랙으로 분기(별도 저장소). Dress Story 는 출시 우선.
+- 2026-09-18 출시 준비: PWA(manifest/sw/icons), dist 빌드, Capacitor 안드로이드 + 서명 AAB, 개인정보 처리방침, GitHub 저장소 생성·Pages 배포. gh CLI 설치·로그인(seomun).

@@ -1,6 +1,14 @@
 # 현재 상태 — Starry Village
 
-갱신 2026-09-15 (index.html v0.1 후). 폴더 `C:\projects\starry-village`. 먼저 `CLAUDE.md` 를 읽을 것.
+갱신 2026-09-18 (출시 준비 완료). 폴더 `C:\projects\starry-village`. 먼저 `CLAUDE.md` 를 읽을 것.
+
+## 출시 상태 (2026-09-18)
+- **웹**: https://seomun.github.io/starry-village/ (GitHub Pages, main 브랜치 루트). PWA — 폰에서 "홈 화면에 추가" 가능.
+- **안드로이드**: 서명된 릴리스 AAB `android/app/build/outputs/bundle/release/app-release.aab` (versionCode 1). Play Console 에 올리기만 하면 됨 — 절차 `docs/05_STORE_RELEASE.md`.
+- **서명 키**: `C:/Users/gurud/.keys/dressstory-upload.jks` + `.properties`. **다른 곳에 백업할 것.** git 에 없음.
+- **iOS**: Mac 없음 → 보류. `docs/05` §2.
+- 개인정보 처리방침: https://seomun.github.io/starry-village/privacy.html
+- 사람이 할 일: Play Console 계정($25) → 앱 생성 → 정책 설문 → AAB 업로드. 스토어 설명문은 직접 쓴다.
 
 ## 지금 있는 것
 - 문서 5개(`docs/00~04`), 데이터 스키마 + Stage 1~3 JSON 샘플, 폴더 골격.
@@ -19,7 +27,7 @@
 
 ## 다음 할 일 (순서대로) — D10: 빠른 출시가 목표. 스테이지 추가보다 배포 먼저
 1. 폰 실기 확인(`python -m http.server 8080` → 같은 와이파이) 스크린샷 → `notes/2026-MM-DD_p1_phone.md`.
-2. **출시**: 파비콘·og 메타 → GitHub Pages(저장소 생성 필요, 사람 승인) 또는 Netlify. fetch 는 호스팅에서 그대로 동작.
+2. Play Console 제출(사람). 기능 그래픽 1024×500 + 스크린샷 1080×1920 은 요청하면 만들어 줌.
 3. 배경 2장 GPT 생성 → `assets/backgrounds/post_office.png`, `star_house.png` (프롬프트 `assets/README.md`).
 4. S7 시드: 「카페의 새 아르바이트생」 — 레오가 카페 알바로 등장, 밀린 주문을 무심한 한마디로 해결(정체 페이스 S07). 쇼츠 대본 첫 2개(S1, S5 현 화단).
 5. (P2) 리아 파츠 분리 → `game_layers` 채우기.
